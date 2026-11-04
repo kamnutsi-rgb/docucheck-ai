@@ -1097,12 +1097,83 @@
         { ruleId: "SPELL-TH-019", wrong: "กระเพรา", correct: "กะเพรา", reason: "ชื่อพืชและอาหารสะกดว่า 'กะเพรา'", severity: "High", confidence: 0.97 },
         { ruleId: "SPELL-TH-020", wrong: "ธุระกิจ", correct: "ธุรกิจ", reason: "คำว่า 'ธุรกิจ' ไม่มี ร หลัง ธุ", severity: "High", confidence: 0.98 },
         { ruleId: "SPELL-TH-021", wrong: "ภาพยนต์", correct: "ภาพยนตร์", reason: "คำว่า 'ภาพยนตร์' มี ร์ การันต์ท้ายคำ", severity: "High", confidence: 0.97 },
+        // Additional high-frequency misspellings curated from Thai spelling references.
+        { ruleId: "SPELL-TH-022", wrong: "กงศุล", correct: "กงสุล", reason: "คำว่า 'กงสุล' สะกดด้วย ส เสือ", severity: "High", confidence: 0.98 },
+        { ruleId: "SPELL-TH-023", wrong: "กบฎ", correct: "กบฏ", reason: "คำว่า 'กบฏ' ใช้ ฏ ปฏัก", severity: "High", confidence: 0.98 },
+        { ruleId: "SPELL-TH-024", wrong: "กลยุทธ", correct: "กลยุทธ์", reason: "คำว่า 'กลยุทธ์' ต้องมีการันต์ที่ ธ", severity: "High", confidence: 0.98 },
+        { ruleId: "SPELL-TH-025", wrong: "กลยุทธิ์", correct: "กลยุทธ์", reason: "คำว่า 'กลยุทธ์' ใช้ ธ์ ไม่ใช่ ธิ์", severity: "High", confidence: 0.98 },
+        { ruleId: "SPELL-TH-026", wrong: "กลางครัน", correct: "กลางคัน", reason: "สำนวนที่ถูกต้องคือ 'กลางคัน'", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-027", wrong: "กลิ่นไอ", correct: "กลิ่นอาย", reason: "คำว่า 'กลิ่นอาย' ใช้ อาย หมายถึงกลิ่น", severity: "Medium", confidence: 0.94 },
+        { ruleId: "SPELL-TH-028", wrong: "กระทันหัน", correct: "กะทันหัน", reason: "คำว่า 'กะทันหัน' ใช้ กะ ไม่ใช่ กระ", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-029", wrong: "กระเทย", correct: "กะเทย", reason: "คำว่า 'กะเทย' ใช้ กะ ไม่ใช่ กระ", severity: "Medium", confidence: 0.95 },
+        { ruleId: "SPELL-TH-030", wrong: "กระพริบ", correct: "กะพริบ", reason: "คำว่า 'กะพริบ' ใช้ กะ ไม่ใช่ กระ", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-031", wrong: "กะเพา", correct: "กะเพรา", reason: "ชื่อพืชและอาหารสะกดว่า 'กะเพรา'", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-032", wrong: "กระเพา", correct: "กะเพรา", reason: "ชื่อพืชและอาหารสะกดว่า 'กะเพรา'", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-033", wrong: "กังวาล", correct: "กังวาน", reason: "คำว่า 'กังวาน' ลงท้ายด้วย น หนู", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-034", wrong: "กอลฟ์", correct: "กอล์ฟ", reason: "คำทับศัพท์ที่ถูกต้องคือ 'กอล์ฟ'", severity: "Medium", confidence: 0.95 },
+        { ruleId: "SPELL-TH-035", wrong: "กาละมัง", correct: "กะละมัง", reason: "คำว่า 'กะละมัง' ใช้สระอะที่พยางค์แรก", severity: "Medium", confidence: 0.93 },
+        { ruleId: "SPELL-TH-036", wrong: "กระหล่ำ", correct: "กะหล่ำ", reason: "คำว่า 'กะหล่ำ' ใช้ กะ ไม่ใช่ กระ", severity: "Medium", confidence: 0.94 },
+        { ruleId: "SPELL-TH-037", wrong: "คฤหาสถ์", correct: "คฤหาสน์", reason: "คำว่า 'คฤหาสน์' ใช้ น์ การันต์", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-038", wrong: "คลิ๊ก", correct: "คลิก", reason: "คำว่า 'คลิก' ไม่ต้องใส่วรรณยุกต์", severity: "Medium", confidence: 0.94 },
+        { ruleId: "SPELL-TH-039", wrong: "คลิ้ก", correct: "คลิก", reason: "คำว่า 'คลิก' ไม่ต้องใส่วรรณยุกต์", severity: "Medium", confidence: 0.94 },
+        { ruleId: "SPELL-TH-040", wrong: "คัดสรรค์", correct: "คัดสรร", reason: "คำว่า 'คัดสรร' ไม่ต้องมีการันต์ท้ายคำ", severity: "Medium", confidence: 0.95 },
+        { ruleId: "SPELL-TH-041", wrong: "โครต", correct: "โคตร", reason: "คำว่า 'โคตร' สะกดด้วย ต เต่า", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-042", wrong: "จราจล", correct: "จลาจล", reason: "คำว่า 'จลาจล' ไม่มี ร หลัง จ", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-043", wrong: "ตระเวณ", correct: "ตระเวน", reason: "คำว่า 'ตระเวน' ลงท้ายด้วย น หนู", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-044", wrong: "ตระกร้า", correct: "ตะกร้า", reason: "คำว่า 'ตะกร้า' ใช้ ตะ ไม่ใช่ ตระ", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-045", wrong: "ตำหรับ", correct: "ตำรับ", reason: "คำว่า 'ตำรับ' ใช้ บ ใบไม้", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-046", wrong: "โต้ะ", correct: "โต๊ะ", reason: "คำว่า 'โต๊ะ' ใช้ไม้ไต่คู้และไม้เอก", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-047", wrong: "ทะเลสาป", correct: "ทะเลสาบ", reason: "คำว่า 'ทะเลสาบ' ลงท้ายด้วย บ ใบไม้", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-048", wrong: "บันทัด", correct: "บรรทัด", reason: "คำว่า 'บรรทัด' ใช้ รร", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-049", wrong: "บันทุก", correct: "บรรทุก", reason: "คำว่า 'บรรทุก' ใช้ รร", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-050", wrong: "บันลุ", correct: "บรรลุ", reason: "คำว่า 'บรรลุ' ใช้ รร", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-051", wrong: "บังเอิน", correct: "บังเอิญ", reason: "คำว่า 'บังเอิญ' ลงท้ายด้วย ญ หญิง", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-052", wrong: "ผูกพันธ์", correct: "ผูกพัน", reason: "คำว่า 'ผูกพัน' ไม่มี ธ์ การันต์", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-053", wrong: "พึมพัม", correct: "พึมพำ", reason: "คำว่า 'พึมพำ' ใช้สระอำท้ายคำ", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-054", wrong: "พิสูตร", correct: "พิสูจน์", reason: "คำว่า 'พิสูจน์' ลงท้ายด้วย จน์", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-055", wrong: "เพิ่มพูล", correct: "เพิ่มพูน", reason: "คำว่า 'เพิ่มพูน' ลงท้ายด้วย น หนู", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-056", wrong: "ภาระกิจ", correct: "ภารกิจ", reason: "คำสมาส 'ภารกิจ' ไม่ใช้สระอะกลางคำ", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-057", wrong: "ภูมใจ", correct: "ภูมิใจ", reason: "คำว่า 'ภูมิใจ' ต้องมีสระอิในคำว่า ภูมิ", severity: "High", confidence: 0.95 },
+        { ruleId: "SPELL-TH-058", wrong: "มาตราการ", correct: "มาตรการ", reason: "คำว่า 'มาตรการ' ไม่มีสระอาเพิ่มหลัง ตร", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-059", wrong: "มาตราฐาน", correct: "มาตรฐาน", reason: "คำว่า 'มาตรฐาน' ใช้ ฐ ฐาน", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-060", wrong: "วาทะกรรม", correct: "วาทกรรม", reason: "คำสมาส 'วาทกรรม' ไม่ใช้สระอะกลางคำ", severity: "High", confidence: 0.95 },
+        { ruleId: "SPELL-TH-061", wrong: "วักซีน", correct: "วัคซีน", reason: "คำว่า 'วัคซีน' ใช้ ค ควาย", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-063", wrong: "อุปกรณ", correct: "อุปกรณ์", reason: "คำว่า 'อุปกรณ์' มี ณ์ การันต์ท้ายคำ", severity: "High", confidence: 0.97 },
+        { ruleId: "SPELL-TH-064", wrong: "อุปกรณื", correct: "อุปกรณ์", reason: "คำว่า 'อุปกรณ์' มี ณ์ การันต์ท้ายคำ", severity: "High", confidence: 0.96 },
+        { ruleId: "SPELL-TH-065", wrong: "ไตรยางค์", correct: "ไตรยางศ์", reason: "คำว่า 'ไตรยางศ์' ใช้ ศ ศาลา", severity: "Medium", confidence: 0.94 },
+        { ruleId: "SPELL-TH-066", wrong: "วันทยาหัตถ์", correct: "วันทยหัตถ์", reason: "คำว่า 'วันทยหัตถ์' ไม่มีสระอาแทรกกลางคำ", severity: "Medium", confidence: 0.93 },
         { ruleId: "SPELL-EN-001", wrong: "recieve", correct: "receive", reason: "คำภาษาอังกฤษสะกดผิด ('recieve' -> 'receive')", severity: "High", confidence: 0.99 },
         { ruleId: "SPELL-EN-002", wrong: "occured", correct: "occurred", reason: "คำภาษาอังกฤษสะกดผิด ('occured' -> 'occurred')", severity: "High", confidence: 0.99 },
         { ruleId: "SPELL-EN-003", wrong: "seperate", correct: "separate", reason: "คำภาษาอังกฤษสะกดผิด ('seperate' -> 'separate')", severity: "High", confidence: 0.99 },
         { ruleId: "SPELL-EN-004", wrong: "enviroment", correct: "environment", reason: "คำภาษาอังกฤษสะกดผิด ('enviroment' -> 'environment')", severity: "High", confidence: 0.99 },
         { ruleId: "SPELL-EN-005", wrong: "acommodate", correct: "accommodate", reason: "คำภาษาอังกฤษสะกดผิด ('acommodate' -> 'accommodate')", severity: "High", confidence: 0.99 },
-        { ruleId: "SPELL-EN-006", wrong: "definately", correct: "definitely", reason: "คำภาษาอังกฤษสะกดผิด ('definately' -> 'definitely')", severity: "High", confidence: 0.99 }
+        { ruleId: "SPELL-EN-006", wrong: "definately", correct: "definitely", reason: "คำภาษาอังกฤษสะกดผิด ('definately' -> 'definitely')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-007", wrong: "wierd", correct: "weird", reason: "คำภาษาอังกฤษสะกดผิด ('wierd' -> 'weird')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-008", wrong: "untill", correct: "until", reason: "คำภาษาอังกฤษสะกดผิด ('untill' -> 'until')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-009", wrong: "adress", correct: "address", reason: "คำภาษาอังกฤษสะกดผิด ('adress' -> 'address')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-010", wrong: "begining", correct: "beginning", reason: "คำภาษาอังกฤษสะกดผิด ('begining' -> 'beginning')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-011", wrong: "goverment", correct: "government", reason: "คำภาษาอังกฤษสะกดผิด ('goverment' -> 'government')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-012", wrong: "maintenence", correct: "maintenance", reason: "คำภาษาอังกฤษสะกดผิด ('maintenence' -> 'maintenance')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-013", wrong: "independant", correct: "independent", reason: "คำภาษาอังกฤษสะกดผิด ('independant' -> 'independent')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-014", wrong: "sucessful", correct: "successful", reason: "คำภาษาอังกฤษสะกดผิด ('sucessful' -> 'successful')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-015", wrong: "neccessary", correct: "necessary", reason: "คำภาษาอังกฤษสะกดผิด ('neccessary' -> 'necessary')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-016", wrong: "recomend", correct: "recommend", reason: "คำภาษาอังกฤษสะกดผิด ('recomend' -> 'recommend')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-017", wrong: "writting", correct: "writing", reason: "คำภาษาอังกฤษสะกดผิด ('writting' -> 'writing')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-018", wrong: "useage", correct: "usage", reason: "คำภาษาอังกฤษสะกดผิด ('useage' -> 'usage')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-019", wrong: "developement", correct: "development", reason: "คำภาษาอังกฤษสะกดผิด ('developement' -> 'development')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-020", wrong: "thier", correct: "their", reason: "คำภาษาอังกฤษสะกดผิด ('thier' -> 'their')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-021", wrong: "acheive", correct: "achieve", reason: "คำภาษาอังกฤษสะกดผิด ('acheive' -> 'achieve')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-022", wrong: "calender", correct: "calendar", reason: "คำภาษาอังกฤษสะกดผิด ('calender' -> 'calendar')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-023", wrong: "refered", correct: "referred", reason: "คำภาษาอังกฤษสะกดผิด ('refered' -> 'referred')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-024", wrong: "privelege", correct: "privilege", reason: "คำภาษาอังกฤษสะกดผิด ('privelege' -> 'privilege')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-025", wrong: "occassion", correct: "occasion", reason: "คำภาษาอังกฤษสะกดผิด ('occassion' -> 'occasion')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-026", wrong: "dissapoint", correct: "disappoint", reason: "คำภาษาอังกฤษสะกดผิด ('dissapoint' -> 'disappoint')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-027", wrong: "arguement", correct: "argument", reason: "คำภาษาอังกฤษสะกดผิด ('arguement' -> 'argument')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-028", wrong: "tommorow", correct: "tomorrow", reason: "คำภาษาอังกฤษสะกดผิด ('tommorow' -> 'tomorrow')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-029", wrong: "resturant", correct: "restaurant", reason: "คำภาษาอังกฤษสะกดผิด ('resturant' -> 'restaurant')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-030", wrong: "publically", correct: "publicly", reason: "คำภาษาอังกฤษสะกดผิด ('publically' -> 'publicly')", severity: "High", confidence: 0.98 },
+        { ruleId: "SPELL-EN-031", wrong: "concious", correct: "conscious", reason: "คำภาษาอังกฤษสะกดผิด ('concious' -> 'conscious')", severity: "High", confidence: 0.99 },
+        { ruleId: "SPELL-EN-032", wrong: "responsibile", correct: "responsible", reason: "คำภาษาอังกฤษสะกดผิด ('responsibile' -> 'responsible')", severity: "High", confidence: 0.99 }
       ],
       phraseRules: [
         { ruleId: "PHR-TH-001", wrong: "ทำการตรวจสอบ", correct: "ตรวจสอบ", reason: "สำนวนฟุ่มเฟือย คำว่า 'ทำการ' หน้าคำกริยาแท้ไม่จำเป็นในเอกสารทางการ แนะนำให้ใช้ 'ตรวจสอบ' โดยตรง", severity: "Low", confidence: 0.88, findingType: "suggestion" },
@@ -1599,7 +1670,7 @@
         }
 
         // 2. Spelling Rules
-        for (const rule of RULES_CONFIG.spellingRules) {
+        for (const rule of [...RULES_CONFIG.spellingRules].sort((a, b) => b.wrong.length - a.wrong.length)) {
           const isEnglishWord = /^[A-Za-z]+$/.test(rule.wrong);
           const searchText = isEnglishWord ? text.toLowerCase() : text;
           const needle = isEnglishWord ? rule.wrong.toLowerCase() : rule.wrong;
@@ -1610,6 +1681,9 @@
             const endIdx = idx + needle.length;
             pos = idx + 1;
             if (isEnglishWord && ((idx > 0 && /[A-Za-z0-9_]/.test(text[idx - 1])) || (endIdx < text.length && /[A-Za-z0-9_]/.test(text[endIdx])))) continue;
+            // Do not flag a valid Thai spelling when the typo candidate is only a prefix
+            // followed by a combining mark (for example กลยุทธ์ contains กลยุทธ + ์).
+            if (!isEnglishWord && endIdx < text.length && /\p{M}/u.test(text[endIdx])) continue;
             if (spanOverlaps(occupied, idx, endIdx)) continue;
             occupied.push([idx, endIdx]);
             const actualWord = text.slice(idx, endIdx);
