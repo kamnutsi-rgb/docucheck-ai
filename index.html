@@ -364,8 +364,12 @@
               </div>
 
               <div class="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 leading-relaxed">
-                ระบบตรวจด้วยกฎและรายการคำที่กำหนดไว้ ยังไม่มี AI หรือพจนานุกรมครอบคลุมทุกคำ จึงควรตรวจทานเอกสารก่อนใช้งานจริง
+                ระบบตรวจหลักด้วยกฎ หากเลือกตรวจพจนานุกรม ระบบจะส่งเฉพาะคำไทยที่แยกได้ให้ราชบัณฑิตยสภาค้นหา ชื่อเฉพาะและศัพท์เฉพาะอาจไม่พบ และไม่แก้ไขอัตโนมัติ
               </div>
+              <label class="flex items-start gap-2.5 p-3.5 rounded-2xl bg-white border border-slate-200 text-xs text-slate-700 cursor-pointer">
+                <input id="enableRoyalDictionaryCheck" type="checkbox" class="mt-0.5 h-4 w-4 accent-teal-600" />
+                <span><strong>ตรวจเสริมกับพจนานุกรมราชบัณฑิตยสภา</strong><br />เมื่อเลือก ระบบจะส่งเฉพาะคำภาษาไทยที่แยกได้ (สูงสุด 80 คำต่อเอกสาร) ไปค้นที่เว็บไซต์พจนานุกรม ไม่ส่งไฟล์หรือข้อความทั้งย่อหน้า คำที่ไม่พบอาจเป็นชื่อเฉพาะ/ศัพท์เฉพาะ ไม่ได้ยืนยันว่าเป็นคำผิด <a class="text-teal-700 underline" href="https://dictionary.orst.go.th/disclaimer.php" target="_blank" rel="noopener noreferrer">อ่านเงื่อนไขการใช้งาน</a></span>
+              </label>
             </div>
 
             <!-- Extra-Large Easy-to-Click Start Button -->
@@ -568,6 +572,10 @@
             <span class="font-bold text-slate-600 block">เหตุผล:</span>
             <p id="docFocusReason" class="text-slate-700 mt-0.5 leading-relaxed">-</p>
           </div>
+          <div id="docFocusDictionaryEvidence" class="hidden p-3 rounded-2xl bg-sky-50 border border-sky-200 text-xs text-sky-950">
+            <span class="font-bold block">ผลค้นพจนานุกรมราชบัณฑิตยสภา:</span>
+            <p id="docFocusDictionaryEvidenceText" class="mt-1 leading-relaxed"></p>
+          </div>
 
           <!-- Big Easy-to-Click Decision Buttons -->
           <div class="grid grid-cols-2 gap-2.5 pt-1">
@@ -660,6 +668,15 @@
       <!-- Document Limitations / Scope Notice -->
       <div id="revLimitationsBanner" class="hidden bg-amber-50 border border-amber-200 rounded-2xl px-4 py-2.5 text-xs text-amber-900 flex items-start justify-between gap-3 shadow-sm">
         <div id="revLimitationsList" class="space-y-0.5"></div>
+      </div>
+
+      <div id="dictionaryReviewBanner" class="hidden bg-sky-50 border border-sky-200 rounded-2xl px-4 py-3 text-xs text-sky-950 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div><strong>ตรวจเสริมจากพจนานุกรมราชบัณฑิตยสภา</strong><div id="dictionaryReviewSummary" class="mt-1"></div></div>
+          <a href="https://dictionary.orst.go.th/" target="_blank" rel="noopener noreferrer" class="text-teal-800 underline font-semibold">เปิดพจนานุกรมฉบับราชบัณฑิตยสถาน</a>
+        </div>
+        <div id="dictionaryUnlistedWords" class="flex flex-wrap gap-1.5 mt-2"></div>
+        <p class="mt-2 text-slate-600">คำที่ไม่พบรายการตรงตัวต้องตรวจบริบทเพิ่มเติม ระบบจะไม่แก้คำเหล่านี้อัตโนมัติ</p>
       </div>
 
       <!-- 3-Pane Responsive Workspace -->
@@ -1216,6 +1233,7 @@
       selectedFindingId: null,
       ttlIntervalId: null,
       processingTimerId: null,
+      processingAbortController: null,
       correctedBlobUrl: null,
       reportBlobUrl: null
     };
@@ -2408,6 +2426,20 @@
       document.getElementById("docFocusSuggestedWord").textContent = afterTxt;
       document.getElementById("docFocusCustomInput").value = afterTxt;
       document.getElementById("docFocusReason").textContent = f.reason;
+      const dictEvidence = document.getElementById("docFocusDictionaryEvidence");
+      const dictEvidenceText = document.getElementById("docFocusDictionaryEvidenceText");
+      const dictResults = job.royalDictionaryCheck?.results || [];
+      const dictMap = new Map(dictResults.map(item => [item.word, item.status]));
+      const originalStatus = dictMap.get(String(f.original_text || "").normalize("NFC"));
+      const suggestedStatus = dictMap.get(String(afterTxt || "").normalize("NFC"));
+      if (job.royalDictionaryCheck && (originalStatus || suggestedStatus)) {
+        const label = status => status === "found" ? "พบในพจนานุกรม" : status === "not_found" ? "ไม่พบรายการตรงตัว" : status === "error" ? "ตรวจไม่ได้" : "ยังไม่ได้ตรวจ";
+        dictEvidenceText.textContent = "คำเดิม: " + label(originalStatus) + (afterTxt === f.original_text ? "" : " • คำแนะนำ: " + label(suggestedStatus));
+        dictEvidence.classList.remove("hidden");
+      } else {
+        dictEvidence.classList.add("hidden");
+        dictEvidenceText.textContent = "";
+      }
 
       const pill = document.getElementById("docFocusStatusPill");
       pill.textContent = f.status === "Accepted" || f.status === "Applied" ? "✓ ยอมรับแล้ว" : f.status === "Rejected" ? "✕ คงคำเดิม" : "รอพิจารณา";
@@ -2766,6 +2798,8 @@
     function purgeCurrentJobData(message) {
       if (appState.ttlIntervalId) clearInterval(appState.ttlIntervalId);
       if (appState.processingTimerId) clearTimeout(appState.processingTimerId);
+      if (appState.processingAbortController) appState.processingAbortController.abort();
+      appState.processingAbortController = null;
       invalidateCurrentExport();
       appState.currentJob = null;
       appState.selectedFindingId = null;
@@ -2782,6 +2816,67 @@
     }
 
     // =========================================================================
+    async function checkWordsWithRoyalDictionary(words, onProgress = () => {}) {
+      const uniqueWords = [...new Set(words.map(w => String(w || "").normalize("NFC").trim()).filter(Boolean))].slice(0, 80);
+      const results = [];
+      for (let i = 0; i < uniqueWords.length; i += 20) {
+        const batch = uniqueWords.slice(i, i + 20);
+        const response = await fetch("/.netlify/functions/royal-dictionary-check", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ words: batch }),
+          signal: appState.processingAbortController?.signal
+        });
+        if (!response.ok) throw new Error("บริการพจนานุกรมตอบกลับไม่สำเร็จ (" + response.status + ")");
+        const payload = await response.json();
+        if (!Array.isArray(payload.results)) throw new Error("รูปแบบผลตอบกลับจากบริการพจนานุกรมไม่ถูกต้อง");
+        results.push(...payload.results);
+        onProgress(results.length, uniqueWords.length);
+      }
+      return { results, requested: uniqueWords.length, total: words.length, omitted: Math.max(0, words.length - uniqueWords.length) };
+    }
+
+    function collectThaiDictionaryTerms(segments, findings) {
+      if (typeof Intl.Segmenter !== "function") return [];
+      const segmenter = new Intl.Segmenter("th", { granularity: "word" });
+      const terms = [];
+      for (const seg of segments) {
+        for (const part of segmenter.segment(seg.text || "")) {
+          const word = part.segment.normalize("NFC").trim();
+          if (part.isWordLike && /\p{Script=Thai}/u.test(word) && [...word].length >= 2) terms.push(word);
+        }
+      }
+      for (const f of findings) {
+        if (!String(f.category || "").includes("คำสะกดผิด")) continue;
+        const suggested = String(f.suggested_text || "").normalize("NFC").trim();
+        if (/\p{Script=Thai}/u.test(suggested) && [...suggested].length >= 2) terms.unshift(suggested);
+      }
+      return [...new Set(terms)];
+    }
+
+    function renderRoyalDictionarySummary(check) {
+      const banner = document.getElementById("dictionaryReviewBanner");
+      if (!check) { banner.classList.add("hidden"); return; }
+      banner.classList.remove("hidden");
+      const summary = document.getElementById("dictionaryReviewSummary");
+      const wordsWrap = document.getElementById("dictionaryUnlistedWords");
+      if (check.error) {
+        summary.textContent = "ตรวจไม่ได้ในขณะนี้: " + check.error + " ผลตรวจตามกฎยังแสดงตามปกติ";
+        wordsWrap.replaceChildren();
+        return;
+      }
+      const found = check.results.filter(x => x.status === "found").length;
+      const missing = check.results.filter(x => x.status === "not_found");
+      const unavailable = check.results.filter(x => x.status === "error").length;
+      summary.textContent = "ตรวจ " + check.results.length + "/" + check.requested + " คำ • พบในพจนานุกรม " + found + " คำ • ไม่พบรายการตรงตัว " + missing.length + " คำ" + (unavailable ? " • ตรวจไม่สำเร็จ " + unavailable + " คำ" : "") + (check.omitted ? " • ข้ามอีก " + check.omitted + " คำ (เกินขีดจำกัด 80 คำ)" : "");
+      wordsWrap.replaceChildren();
+      for (const item of missing.slice(0, 80)) {
+        const chip = document.createElement("span");
+        chip.className = "rounded-lg bg-white border border-sky-200 px-2 py-1 font-semibold text-sky-900";
+        chip.textContent = item.word;
+        wordsWrap.appendChild(chip);
+      }
+    }
+
     // Main Inspection Workflow Execution
     // =========================================================================
     async function startDocumentInspection() {
@@ -2793,9 +2888,11 @@
       const modeInput = document.querySelector("input[name='checkMode']:checked");
       const checkMode = modeInput ? modeInput.value : "quick_check";
       const allowAi = false;
+      const useRoyalDictionary = Boolean(document.getElementById("enableRoyalDictionaryCheck")?.checked);
 
       const jobId = "job_" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36).slice(-4);
       const filename = appState.selectedFile ? appState.selectedFile.name : "sample_complex.docx";
+      appState.processingAbortController = new AbortController();
 
       document.getElementById("procFileName").textContent = filename;
       document.getElementById("procCheckModeLabel").textContent =
@@ -2827,6 +2924,18 @@
         await new Promise(r => { appState.processingTimerId = setTimeout(r, 180); });
 
         const findings = runRuleBasedEngine(jobId, extracted.segments, checkMode);
+        let royalDictionaryCheck = null;
+        if (useRoyalDictionary) {
+          try {
+            const dictionaryTerms = collectThaiDictionaryTerms(extracted.segments, findings);
+            if (!dictionaryTerms.length) throw new Error("เบราว์เซอร์นี้ไม่สามารถแยกคำภาษาไทยเพื่อตรวจเสริมได้");
+            royalDictionaryCheck = await checkWordsWithRoyalDictionary(dictionaryTerms, (done, total) => {
+              document.getElementById("procCurrentStatusText").textContent = "กำลังค้นคำที่ยินยอมส่งไปยังพจนานุกรมราชบัณฑิตยสภา (" + done + "/" + total + ")";
+            });
+          } catch (dictErr) {
+            royalDictionaryCheck = { error: dictErr.message || "เชื่อมต่อไม่ได้", results: [], requested: 0, total: 0, omitted: 0 };
+          }
+        }
         document.getElementById("procRowStatus2").textContent = "✓ สำเร็จ";
         document.getElementById("procRowStatus2").className = "font-bold text-emerald-700 shrink-0";
 
@@ -2860,11 +2969,13 @@
           segments: extracted.segments,
           limitations: extracted.limitations,
           findings: findings,
+          royalDictionaryCheck: royalDictionaryCheck,
           createdAtMs: nowMs,
           expiresAtMs: nowMs + 3600 * 1000,
           exportSummary: null
         };
 
+        appState.processingAbortController = null;
         startTtlCountdown(appState.currentJob.expiresAtMs);
 
         document.getElementById("revFileName").textContent = filename;
@@ -2883,6 +2994,7 @@
         }
 
         populateCategoryFilter(findings);
+        renderRoyalDictionarySummary(royalDictionaryCheck);
         updateSummaryCounters();
         appState.selectedFindingId = findings.length > 0 ? findings[0].finding_id : null;
         renderLeftFindingsList();
@@ -2894,6 +3006,8 @@
         switchScreen("docFocus");
         showToast(`ตรวจตามกฎในระบบเสร็จแล้ว พบรายการให้พิจารณา ${findings.length} จุด โปรดตรวจเอกสารทั้งฉบับด้วยตนเองก่อนใช้งาน`, "success");
       } catch (err) {
+        if (err && err.name === "AbortError") return;
+        appState.processingAbortController = null;
         switchScreen(1);
         showToast("เกิดข้อผิดพลาดในการประมวลผล: " + (err.message || String(err)), "error");
       }
