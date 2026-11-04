@@ -2847,10 +2847,52 @@
       }
       for (const f of findings) {
         if (!String(f.category || "").includes("คำสะกดผิด")) continue;
+        const original = String(f.original_text || "").normalize("NFC").trim();
         const suggested = String(f.suggested_text || "").normalize("NFC").trim();
+        if (/\p{Script=Thai}/u.test(original) && [...original].length >= 2) terms.unshift(original);
         if (/\p{Script=Thai}/u.test(suggested) && [...suggested].length >= 2) terms.unshift(suggested);
       }
       return [...new Set(terms)];
+    }
+
+    function addDictionaryReviewCandidates(jobId, segments, findings, dictionaryCheck) {
+      if (!dictionaryCheck || dictionaryCheck.error) return;
+      const missing = new Set(dictionaryCheck.results.filter(item => item.status === "not_found").map(item => item.word));
+      let nextId = findings.length + 1;
+      for (const seg of segments) {
+        for (const word of missing) {
+          let pos = 0;
+          while ((pos = seg.text.indexOf(word, pos)) !== -1) {
+            const end = pos + word.length;
+            const alreadyFlagged = findings.some(f => f.segment_id === seg.segmentId && pos < f.anchor.charEnd && end > f.anchor.charStart);
+            if (!alreadyFlagged) {
+              const startContext = Math.max(0, pos - 40);
+              const endContext = Math.min(seg.text.length, end + 40);
+              findings.push({
+                finding_id: "dict_" + String(nextId++).padStart(3, "0"),
+                job_id: jobId,
+                segment_id: seg.segmentId,
+                category: "คำไม่พบในพจนานุกรม (โปรดตรวจทาน)",
+                finding_type: "suggestion",
+                original_text: word,
+                suggested_text: word,
+                user_edited_text: null,
+                reason: "พจนานุกรมราชบัณฑิตยสภาไม่พบคำนี้ อาจเป็นชื่อเฉพาะ ศัพท์เฉพาะ หรือคำสะกดผิด โปรดตรวจบริบทและยืนยันเอง ระบบไม่แก้คำอัตโนมัติ",
+                location_label: seg.anchor.humanLocation,
+                context_snippet: (startContext > 0 ? "..." : "") + seg.text.slice(startContext, endContext) + (endContext < seg.text.length ? "..." : ""),
+                severity: "low",
+                confidence: 0.45,
+                source: "Royal Dictionary (review candidate)",
+                status: "Pending Review",
+                requires_manual_fact_confirm: false,
+                rule_id: "royal_dictionary_not_found",
+                anchor: Object.assign({}, seg.anchor, { charStart: pos, charEnd: end })
+              });
+            }
+            pos = end;
+          }
+        }
+      }
     }
 
     function renderRoyalDictionarySummary(check) {
@@ -2936,6 +2978,7 @@
             royalDictionaryCheck = { error: dictErr.message || "เชื่อมต่อไม่ได้", results: [], requested: 0, total: 0, omitted: 0 };
           }
         }
+        addDictionaryReviewCandidates(jobId, extracted.segments, findings, royalDictionaryCheck);
         document.getElementById("procRowStatus2").textContent = "✓ สำเร็จ";
         document.getElementById("procRowStatus2").className = "font-bold text-emerald-700 shrink-0";
 
